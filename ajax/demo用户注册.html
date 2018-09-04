@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function ajax(option){
+            var xhr =new XMLHttpRequest();
+
+            xhr.open(option.method,option.url,true);
+
+            xhr.setRequestHeader("content-type","application/json");
+
+            xhr.send(JSON.stringify(option.param));
+
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState==4){
+                    if(xhr.status==200){
+                        option.success(xhr.responseText);
+                    }else{
+                        option.error(xhr);
+                        
+                    }
+                }
+            }
+
+        }
+
+        ajax({
+            url:"http://qijianhong.cn/regist",
+            method:"post",
+            param:{
+                username:"乔睿功",
+                password:"123456",
+                nichname:"乔",
+                phone:"17865933313",
+            },
+            success:function(date){
+                console.log(date);
+            },
+            error:function(xhr){
+                console.log(xhr);
+            }
+        });
+    </script>
+</body>
+</html>

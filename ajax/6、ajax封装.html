@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	function ajax(option){
+		var xhr = new XMLHttpRequest();
+
+		xhr.open(option.method,option.url,true);
+
+		xhr.send(option.param);
+
+		xhr.onreadystatechange=function(){
+			if(xhr.readyState == 4){
+				if(xhr.status == 200){
+					option.success(JSON.parse(xhr.responseText));
+				}else{
+					option.error(xhr);
+				}
+			}
+		}
+	}
+
+
+	//函数的作用域是在函数定义时决定的
+	ajax({
+		url:"http://maoyan.alipapa.vip/movie",
+		method:"get",
+		param:null,
+		success:function(data){
+			console.log(data);
+		},
+		error:function(xhr){
+			console.log(xhr);
+		}
+	});
+	</script>
+</body>
+</html>

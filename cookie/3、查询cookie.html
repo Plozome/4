@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>   
+        /*
+            cookie 的表现形式为一个字符串，所以我们在取cookie时需要进行拆分
+        */
+        var acookie=document.cookie.split("; ");
+        for(var i=0;i<acookie.length;i++){
+            var acook=acookie[i].split("=");
+            if(acook[0]=="name"){
+                console.log(acook[1]);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*
+            cookie 拥有默认的过期时间(浏览器关闭后，会自动清除)
+                    可以通过设置过期时间，来达到长期储存cookie的目的
+        */
+        var date = new Date();
+        date.setDate(date.getDate() + 7);
+        document.cookie = "name=张三;expires=" + date;
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="cookie.js"></script>
+</head>
+
+<body>
+    <div class="pro_box">
+        <ul>
+
+        </ul>
+    </div>
+    <script>
+        var pros = [{/*模拟数据库*/
+            name: "万能遥控器",
+            price: 10,
+            id: 1
+        }, {
+            name: "空调遥控器",
+            price: 12,
+            id: 2
+        }, {
+            name: "电视遥控器",
+            price: 9,
+            id: 3
+        }, {
+            name: "投影遥控器",
+            price: 3,
+            id: 4
+        }];
+        var list = document.querySelector('.pro_box ul');
+
+        for (var i = 0; i < pros.length; i++) {
+            var li = document.createElement('li');
+            li.innerHTML = "名称：" + pros[i].name + "，" + pros[i].price + "块";
+            var btn = document.createElement('button');
+            btn.innerHTML = "加入购物车";
+            btn.index = i;
+            btn.onclick = function () {
+                addCar(pros[this.index].id);
+            }
+            li.appendChild(btn);
+            list.appendChild(li);
+
+            //cookie里面存的购物车数据格式是eg：1^2表示id为1的商品两个不同商品
+            //用|分开
+            function addCar(id) {
+
+                if (getCookie('car')) {
+                    var acook = getCookie('car').split('|');
+                    var b = true;
+                    for (var i = 0; i < acook.length; i++) {
+                        var cook = acook[i].split("^");//此时拆分成了类似["1","2"]
+                        if (cook[0] == id) {
+                            cook[1] = cook[1] / 1 + 1//先把字符串转成数值再加1然后数量就加1了
+                            acook.splice(i, 1, cook.join('^'));
+                            b = false;
+                            break;
+                        }
+                    }
+                    if (b) acook.push(id + "^1");
+                    setCookie("car", acook.join('|'));
+                } else {
+                    setCookie("car", id + '^1');
+                }
+
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //ajax是微软的ie首先提出的，ActiveXObject
+
+        //高版本浏览器：XMLHttpRequest
+
+        var xhr=new XMLHttpRequest();
+
+        xhr.open("GET","date/date.txt",true);
+
+        xhr.send(null);
+
+        xhr.onreadystatechange=function(){
+            //xhr.readyState用于储存服务器的响应状态
+            if(xhr.readyState==4){
+                if(xhr.status==200)
+                //xhr.status用于储存服务器状态码
+                //xhr.responseText用于接收服务器响应数据
+                console.log(xhr.responseText);
+            }else{
+                console.log("服务器错误");
+            }
+        }   
+        /*
+			xhr.readyState
+				五个状态：
+					0：xhr对象已创建，调用open方法之前
+					1：配置完成，调用opend方法之后
+					2：请求已发送，服务器开始响应
+					3：服务器正在响应
+					4：服务器响应完成
+
+				数据接收必须等待服务器响应完成
+
+			xhr.status
+				状态码：
+					200：成功
+					404：找不到
+					5**：服务器错误
+
+		*/
+    </script>
+</body>
+
+</html>
