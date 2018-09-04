@@ -12,6 +12,6 @@ function setCookie(key, value, days) {
     if (days) { date.setDate(date.getDate() + days) }
     document.cookie = key + "=" + value + ";expires=" + date;
 }
-function removeCookie() {
-    setCookie(key, "", -1);
+function removeCookie(key){
+    setCookie(key,"", -1);
 }
