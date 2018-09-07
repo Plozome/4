@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function ajax(option) {
+            var xhr = new XMLHttpRequest();
+
+            //因为登录是使用get，传数据是在地址栏，下面操作是
+            //将数据按照格式拼接起来?key=value&首位是?接下来
+            //不同的键值对通过&连接
+            var query = "";//存放输入的用户名和密码
+            if (option.method.toLowerCase() == "get") {
+                query = "?";
+                for (var attr in option.data) {
+                    query += attr + "=" + option.data[attr] + "&"
+                }
+                //去掉最后多拼接的一个&
+                query = query.slice(0, -1);
+            }
+
+            xhr.open(option.method, option.url + query, true);
+            //往服务器发送数据不能丢失下面这句，
+            //告诉服务器该用什么格式解析数据
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.send(JSON.stringify(option.data));//将发送的数据转换为json格式的字符串
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        option.success(JSON.parse(xhr.responseText));
+                    } else {
+                        option.error(xhr);
+                    }
+
+                }
+            }
+        }
+
+
+        ajax({
+            url: "http://qijianhong.cn/login",
+            method: "get",
+            data: {
+                username: "xiaomao",
+                password: "123456"
+            },
+            success: function (data) {
+                if (data.nickname) {
+                    window.location.href = "https://www.baidu.com/s?wd=" + data.nickname;
+                } else {
+                    alert(data.msg);
+                }
+            }
+
+        });
+
+    </script>
+</body>
+
+</html>

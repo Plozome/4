@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0%;
+            padding: 0;
+            list-style: none;
+        }
+        cite{
+            font-style: normal;
+            float: right;
+            color: #999999;
+        }
+        .serach{
+            width: 621px;
+            border: solid 2px #ff0036;
+            margin: 10px auto;
+            overflow: hidden;
+        }
+        .serach input{
+            float: left;
+            width: 481px;
+            height: 36px;
+            border: none;
+            outline: none;
+            padding:0 5px;
+        }
+        .serach button{
+            width: 130px;
+            height: 36px;
+            background: #ff0036;
+            border: none;
+            font-weight: bold;
+            color: white;
+            outline: none;
+        }
+        .data_list{
+            position: absolute;
+            border: solid 1px #bebebe;
+            width: 489px;
+            background: #fff;
+            font-size: 12px;
+            line-height: 26px;
+            color: #000000;
+            display: none;
+        }
+        .data_list li{
+            padding: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="serach">
+        <input id="ipt" type="text">
+        <button>搜索</button>
+        <div class="data_list">
+            <ul>
+                <!-- <li><cite>大约多少个结果</cite> 结果1</li> -->
+            </ul>
+        </div>
+    </div>
+    <script src="js/baiduTemplate.js"></script>
+    <script src="js/jsonp.js"></script>
+    <script id="temp" type="text/html">
+        <%for(var i=0; i<result.length; i++){%>
+            <li><cite>约<%=result[i][1]%>个结果</cite><%=result[i][0]%></li>
+        <%}%>
+    </script>
+    <script>
+        var ipt=document.getElementById('ipt');
+        var list_box=document.querySelector('.data_list');
+        var list=document.querySelector('.data_list ul');
+
+        ipt.oninput=function(data){
+            jsonp({
+                url:"https://suggest.taobao.com/sug",
+                data:{
+					code:"utf-8",
+					q:this.value,
+					callback:'fn',
+					area:'b2c'
+				},
+                fnName:'fn',
+                success:function(data){
+					console.log(data);
+					if(data.result.length){
+						list_box.style.display = "block";
+					}else{
+						list_box.style.display = "none";
+					}
+					var html = baidu.template('temp',data);
+					list.innerHTML = html;
+				}
+            })
+        }
+    </script>
+</body>
+</html>

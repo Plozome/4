@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="jsonp.js"></script>
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .serach {
+            margin: 0 auto;
+            width: 400px;
+            height: 40px;
+            border: solid 2px red;
+            overflow: hidden;
+            position: relative;
+            top: 10px;
+        }
+
+        #ipt {
+            display: inline-block;
+            width: 400px;
+            height: 40px;
+            margin: 0 auto;
+            font-size: 20px;
+            
+        }
+        
+        .product_list {
+            top: 6px;
+            width: 400px;
+            border: solid 2px gray;
+            margin: 0 auto;
+            position: relative;
+            z-index: -1;
+        }
+
+        .product_list ul li {
+            margin: 5px 5px;
+            height: 30px;
+            width: 400px;
+            line-height: 30px;
+            /* text-align: center; */
+            /* background: dodgerblue; */
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="serach">
+        <input type="text" id="ipt" placeholder="输入关键词">
+    </div>
+    <div class="product_list">
+        <ul>
+
+        </ul>
+    </div>
+    <script>
+        var serach=document.querySelector('.serach');
+        var pList=document.querySelector('.product_list');
+        var ipt = document.getElementById('ipt');
+        var list = document.querySelector('.product_list ul');
+        var li = "";
+        ipt.oninput = function () {
+
+
+
+            jsonp({
+                url: "https://suggest.taobao.com/sug",
+                data: {
+                    code: "utf-8",
+                    q: this.value,
+                    callback: 'fn',
+                    area: 'b2c'
+                },
+                fnName: 'fn',
+                success: function (data) {
+                    
+                        list.innerHTML ="";
+                    for (i = 0; i < data.result.length; i++) {
+                        var  li = document.createElement('li');
+                        li.innerHTML = data.result[i][0];
+                        list.appendChild(li);
+                        // console.log(data.result[i][0]);
+                    }
+
+                }
+            });
+
+        }
+        ipt.onkeypress=function(){
+            pList.style['z-index']=1;
+        }
+        ipt.onmouseleave=function(){
+            pList.style['z-index']=-1;
+            // list.innerHTML="";
+        }
+
+
+    </script>
+</body>
+
+</html>
